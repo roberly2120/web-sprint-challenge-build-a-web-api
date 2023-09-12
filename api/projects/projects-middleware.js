@@ -29,7 +29,7 @@ function validateProjectContents (req, res, next) {
 async function validateProjectUpdate (req, res, next) {
     const { name, description, completed } = req.body
     const changes = req.body
-    if(!name || !description || !completed) {
+    if(!name || !description || (completed != true || completed != false)) {
         res.status(400).json({ message: "projects need a name, description, and completed property"})
     } else {
         const project = await Projects.get(req.params.id)

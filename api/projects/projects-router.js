@@ -1,7 +1,7 @@
 // Write your "projects" router here!
 const express = require('express');
 const Projects = require('./projects-model');
-const { validateProjectId, validateProjectContents, validateProjectUpdate } = require('./projects-middleware')
+const { validateProjectId, validateProjectContents, validateProjectUpdate} = require('./projects-middleware')
 
 const router = express.Router();
 
@@ -24,17 +24,7 @@ router.post('/', validateProjectContents, (req, res, next) => {
         res.status(201).json(project)
     }) 
     .catch(err => next(err))
-
 })
-// router.put('/:id', validateProjectUpdate, (req, res, next) => {
-//     const { id } = req.params
-//     Projects.update(id, req.changes)
-//         .then(project => {
-//             console.log(req.body);
-//             res.status(200).json(project)
-//         })
-//         .catch(err => next(err))
-// })
 router.put('/:id', async (req, res) => {
     const { id } = req.params
     try {
@@ -45,13 +35,11 @@ router.put('/:id', async (req, res) => {
             if(name && description && (completed === true || completed === false)) {
                 Projects.update(id, changes)
                 .then(update => {
-                    console.log(update);
                     res.status(200).send(update)
                 })
             } else {
                 res.status(400).json({ message: "please fill out all fields"})
-            }
-            
+            } 
         } else {
             res.status(404).json({ message: "project not found"})
         }
